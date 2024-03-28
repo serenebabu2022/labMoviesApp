@@ -19,3 +19,9 @@ export interface BaseMovie {
 export interface BaseMovieList {
     movies: BaseMovie[];
 }
+export interface MovieT extends BaseMovie {
+    genres: {
+        id: number;
+        name: string;
+    }[];
+}
