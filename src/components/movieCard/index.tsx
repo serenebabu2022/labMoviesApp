@@ -11,6 +11,7 @@ import CalendarIcon from "@mui/icons-material/CalendarTodayTwoTone";
 import StarRateIcon from "@mui/icons-material/StarRate";
 import Grid from "@mui/material/Grid";
 import IconButton from "@mui/material/IconButton";
+import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
 import { BaseMovie } from "../../types/interfaces";
 
@@ -56,9 +57,11 @@ const MovieCard: React.FC<BaseMovie> = (props) => {
                 <IconButton aria-label="add to favorites" >
                     <FavoriteIcon color="primary" fontSize="large" />
                 </IconButton>
-                <Button variant="outlined" size="medium" color="primary">
-                    More Info ...
-                </Button>
+                <Link to={`/movies/${props.id}`}>
+                    <Button variant="outlined" size="medium" color="primary">
+                        More Info ...
+                    </Button>
+                </Link>
             </CardActions>
         </Card>
     );
