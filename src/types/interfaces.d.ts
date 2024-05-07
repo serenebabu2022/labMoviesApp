@@ -65,3 +65,8 @@ interface DiscoverMovies {
     total_results: number;
     results: BaseMovie[];
 }
+export interface MovieListPageTemplateProps {
+    movies: ListedMovie[];
+    title: string;
+    action: (m: MovieT) => void;
+}
