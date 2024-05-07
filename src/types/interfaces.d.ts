@@ -70,3 +70,10 @@ export interface MovieListPageTemplateProps {
     title: string;
     action: (m: MovieT) => void;
 }
+export interface Review {
+    author: string,
+    content: string,
+    agree: boolean,
+    rating: number,
+    movieId: number,
+}
