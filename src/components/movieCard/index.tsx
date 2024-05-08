@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
-import { BaseMovie } from "../../types/interfaces";
 import { MoviesContext } from "../../contexts/moviesContext";
 import { ListedMovie } from "../../types/interfaces";
 
@@ -24,9 +23,7 @@ const styles = {
         backgroundColor: "rgb(255, 0, 0)",
     },
 };
-interface MovieCardProps extends BaseMovie {
-    selectFavourite: (movieId: number) => void;
-}
+
 interface MovieListProps {
     movie: ListedMovie,
     action: (m: ListedMovie) => React.ReactNode;

@@ -1,4 +1,3 @@
-import React from "react";
 import PageTemplate from "../components/templateMovieListPage";
 import { getMovies } from "../api/tmdb-api";
 import useFiltering from "../hooks/useFiltering";
@@ -22,7 +21,7 @@ const genreFiltering = {
     condition: genreFilter,
 };
 
-const HomePage = (props) => {
+const HomePage = () => {
     const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("discover", getMovies);
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [],

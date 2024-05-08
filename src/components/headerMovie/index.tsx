@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import HomeIcon from "@mui/icons-material/Home";
 import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import CardHeader from "@mui/material/CardHeader";
 import { MovieT } from "../../types/interfaces";
 
 const styles = {

@@ -15,14 +15,14 @@ const initialContextState: MovieContextInterface = {
 };
 
 
-export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);;
+export const MoviesContext = React.createContext<MovieContextInterface>(initialContextState);
 
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
     const [myReviews, setMyReviews] = useState<Review[]>([])
     const [favourites, setFavourites] = useState<number[]>([]);
 
     const addToFavourites = (movie: ListedMovie) => {
-        let updatedFavourites = [...favourites];
+        const updatedFavourites = [...favourites];
         if (!favourites.includes(movie.id)) {
             updatedFavourites.push(movie.id);
         }

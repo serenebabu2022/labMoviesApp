@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface BaseMovie {
     title: string;
     budget: number;
@@ -42,11 +44,7 @@ export interface MovieImage {
     width?: number;
 }
 export type FilterOption = "title" | "genre";
-export interface MovieListPageTemplateProps {
-    movies: ListedMovie[];
-    title: string;
-    selectFavourite: (m: number) => void;
-}
+
 export interface Review {
     id: string;
     content: string
@@ -68,7 +66,7 @@ interface DiscoverMovies {
 export interface MovieListPageTemplateProps {
     movies: ListedMovie[];
     title: string;
-    action: (m: MovieT) => void;
+    action: (m: ListedMovie) => ReactNode;
 }
 export interface Review {
     author: string,
