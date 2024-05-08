@@ -3,15 +3,19 @@ import { ListedMovie, MovieT, Review } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
+    mustWatchList: number[];
     addToFavourites: ((movie: ListedMovie) => void);
     removeFromFavourites: ((movie: ListedMovie) => void);
-    addReview: ((movie: MovieT, review: Review) => void);  // NEW
+    addReview: ((movie: MovieT, review: Review) => void);
+    addToWatchList: ((movie: ListedMovie) => void);
 }
 const initialContextState: MovieContextInterface = {
     favourites: [],
+    mustWatchList: [],
     addToFavourites: (movie) => { movie.id },
     removeFromFavourites: (movie) => { movie.id },
-    addReview: (movie, review) => { movie.id, review },  // NEW
+    addReview: (movie, review) => { movie.id, review },
+    addToWatchList: (movie) => { movie.id }
 };
 
 
@@ -20,6 +24,7 @@ export const MoviesContext = React.createContext<MovieContextInterface>(initialC
 const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
     const [myReviews, setMyReviews] = useState<Review[]>([])
     const [favourites, setFavourites] = useState<number[]>([]);
+    const [mustWatchList, setMustWatchList] = useState<number[]>([]);
 
     const addToFavourites = (movie: ListedMovie) => {
         const updatedFavourites = [...favourites];
@@ -28,8 +33,16 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
         }
         setFavourites(updatedFavourites);
     };
+    const addToWatchList = (movie: ListedMovie) => {
+        const updatedMoviePlaylist = [...mustWatchList];
+        if (!mustWatchList.includes(movie.id)) {
+            updatedMoviePlaylist.push(movie.id);
+        }
+        setMustWatchList(updatedMoviePlaylist);
+    };
 
-    const addReview = (movie: MovieT, review: Review) => {   // NEW
+
+    const addReview = (movie: MovieT, review: Review) => {
         setMyReviews({ ...myReviews, [movie.id]: review })
     };
 
@@ -42,9 +55,11 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
         <MoviesContext.Provider
             value={{
                 favourites,
+                mustWatchList,
                 addToFavourites,
                 removeFromFavourites,
-                addReview,    // NEW
+                addReview,
+                addToWatchList
             }}
         >
             {props.children}
