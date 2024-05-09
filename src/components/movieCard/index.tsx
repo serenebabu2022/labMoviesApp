@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
 import { MoviesContext } from "../../contexts/moviesContext";
 import { ListedMovie } from "../../types/interfaces";
+import PlayListAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const styles = {
     card: { maxWidth: 345 },
@@ -30,22 +31,28 @@ interface MovieListProps {
 }
 
 const MovieCard: React.FC<MovieListProps> = (props) => {
-    const movie = { ...props.movie, favourite: false };
-    const { favourites, addToFavourites } = useContext(MoviesContext);
+    const movie = { ...props.movie, favourite: false, mustWatch: false };
+    const { favourites } = useContext(MoviesContext);
+    const { mustWatchList } = useContext(MoviesContext);
 
     if (favourites.find((id) => id === movie.id))
         movie.favourite = true;
+    if (mustWatchList.find((id) => id === movie.id))
+        movie.mustWatch = true;
 
     return (
         <Card sx={styles.card}>
             <CardHeader
-                avatar={
-                    movie.favourite ? (
-                        <Avatar sx={styles.avatar}>
-                            <FavoriteIcon />
-                        </Avatar>
-                    ) : null
-                }
+                avatar=
+                {movie.favourite ? (
+                    <Avatar sx={styles.avatar}>
+                        <FavoriteIcon />
+                    </Avatar>
+                ) : movie.mustWatch ? (
+                    <Avatar sx={styles.avatar}>
+                        <PlayListAddIcon />
+                    </Avatar>
+                ) : null}
                 title={
                     <Typography variant="h5" component="p">
                         {movie.title}{" "}
