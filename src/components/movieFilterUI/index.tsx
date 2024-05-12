@@ -13,7 +13,7 @@ export const genreFilter = function (movie: ListedMovie, value: string) {
     const genreId = Number(value);
     return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
-// export const mediaTypeFilter = function (media: ListedMovie | TVSeries, value: string) {
+// export const mediaTypeFilter = function (media: ListedMovie, value: string) {
 //     const mediaType = value.toLowerCase();
 //     console.log("mediatype", mediaType);
 //     console.log("media", media);
@@ -27,6 +27,10 @@ export const genreFilter = function (movie: ListedMovie, value: string) {
 //         return false; // Invalid media type, exclude it
 //     }
 // };
+export const ratingFilter = function (movie: ListedMovie, value: string) {
+    const minRating = parseFloat(value);
+    return movie.vote_average >= minRating; // Direct comparison with float
+};
 
 const styles = {
     root: {
@@ -44,11 +48,13 @@ interface MovieFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
+    // mediaTypeFilter: string;
+    ratingFilter: string;
     isInFavouritesPage: boolean;
 }
 
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, isInFavouritesPage }) => {
+const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, ratingFilter, isInFavouritesPage }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
@@ -71,7 +77,7 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, tit
                     titleFilter={titleFilter}
                     genreFilter={genreFilter}
                     isInFavouritesPage={isInFavouritesPage}
-                    mediaTypeFilter="all"
+                    ratingFilter={ratingFilter}
                 />
             </Drawer>
         </>

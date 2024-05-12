@@ -8,8 +8,10 @@ import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
     titleFilter,
     genreFilter,
+    ratingFilter,
 } from "../components/movieFilterUI";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
+import Pagination from "../components/pagination";
 
 const titleFiltering = {
     name: "title",
@@ -21,13 +23,25 @@ const genreFiltering = {
     value: "0",
     condition: genreFilter,
 };
-
+const ratingFiltering = {
+    name: "genre",
+    value: "0",
+    condition: ratingFilter,
+};
 const PopularMoviesPage: React.FC = () => {
-    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("Popular", getPopularMovies);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>(
+        ["Popular", currentPage],
+        () => getPopularMovies(currentPage),
+        {
+            keepPreviousData: true, // To keep previous data 
+        }
+    );
+    // const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("Popular", getPopularMovies);
 
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [],
-        [titleFiltering, genreFiltering]
+        [titleFiltering, genreFiltering, ratingFiltering]
     );
 
     if (isLoading) {
@@ -40,10 +54,20 @@ const PopularMoviesPage: React.FC = () => {
 
     const changeFilterValues = (type: string, value: string) => {
         const changedFilter = { name: type, value: value };
-        const updatedFilterSet =
-            type === "title"
-                ? [changedFilter, filterValues[1]]
-                : [filterValues[0], changedFilter];
+        let updatedFilterSet;
+        if (type === "title") {
+            updatedFilterSet = [changedFilter, filterValues[1]], filterValues[2];
+        } else if (type === "genre") {
+            updatedFilterSet = [filterValues[0], changedFilter, filterValues[2]];
+        }
+        else if (type === "rating") {
+            updatedFilterSet = [filterValues[0], filterValues[1], changedFilter];
+        }
+        else {
+            // Handle unknown filter types
+            console.error("Unknown filter type:", type);
+            return;
+        }
         setFilterValues(updatedFilterSet);
     };
 
@@ -64,6 +88,12 @@ const PopularMoviesPage: React.FC = () => {
                 titleFilter={filterValues[0].value}
                 genreFilter={filterValues[1].value}
                 isInFavouritesPage={false}
+                ratingFilter={filterValues[2].value}
+            />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages || 1}
+                onPageChange={setCurrentPage}
             />
         </>
     );

@@ -6,14 +6,16 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { FilterOption, GenreData } from "../../types/interfaces"
-import { SelectChangeEvent } from "@mui/material";
+import { FormControlLabel, SelectChangeEvent } from "@mui/material";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { getGenres } from "../../api/tmdb-api";
 import { useQuery } from "react-query";
 import Spinner from '../spinner'
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
 
 const styles = {
     root: {
@@ -32,11 +34,11 @@ interface FilterMoviesCardProps {
     titleFilter: string;
     genreFilter: string;
     isInFavouritesPage: boolean;
-    mediaTypeFilter: string;
+    ratingFilter: string;
 }
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
-
+    const [rating, setRating] = useState(0.0);
     const { data, error, isLoading, isError } = useQuery<GenreData, Error>("genres", getGenres);
 
     if (isLoading) {
@@ -67,8 +69,10 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
     const handleGenreChange = (e: SelectChangeEvent) => {
         handleChange(e, "genre", e.target.value)
     };
-    const handleMediaTypeChange = (e: SelectChangeEvent) => {
-        handleChange(e, "mediaType", e.target.value)
+    const handleRatingChange = (event: ChangeEvent<HTMLInputElement>) => {
+        const newRating = parseFloat(event.target.value); // Parse value as float
+        setRating(newRating);
+        props.onUserInput('rating', newRating.toString()); // Convert back to string
     };
 
     return (
@@ -105,14 +109,14 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
                             })}
                         </Select>
                     </FormControl>
-                    {props.isInFavouritesPage &&
-                        <FormControl sx={styles.formControl}>
-                            <InputLabel id="media-type-label">Media Type</InputLabel>
+                    {/* {props.isInFavouritesPage && */}
+                    {/* <FormControl sx={styles.formControl}>
+                            <InputLabel id="rating-label">Media Type</InputLabel>
                             <Select
-                                labelId="media-type-label"
-                                id="media-type-select"
-                                value={props.mediaTypeFilter}
-                                onChange={handleMediaTypeChange}
+                                labelId="rating-label"
+                                id="rating-select"
+                                value={props.ratingFilter}
+                                onChange={handleRatingChange}
                             >
                                 {mediaTypes.map((type) => (
                                     <MenuItem key={type.key} value={type.key}>
@@ -120,8 +124,27 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
                                     </MenuItem>
                                 ))}
                             </Select>
-                        </FormControl>
-                    }
+                        </FormControl> */}
+                    {/* } */}
+                    <FormControl sx={styles.formControl}>
+                        {/* <InputLabel id="rating-label">Genre</InputLabel> */}
+                        <Typography>Rating</Typography>
+                        <RadioGroup
+                            aria-label="rating"
+                            name="rating"
+                            value={rating.toString()} // Convert rating to string for comparison
+                            onChange={handleRatingChange}
+                            sx={{ flexDirection: 'row' }} // Align radio buttons horizontally
+                        >
+                            {["1", "2", "3", "4", "5", "6", "7", "8", "9"].map((value) => (
+                                <FormControlLabel
+                                    key={value}
+                                    value={value} // Use the actual value for filtering
+                                    control={<Radio color="primary" />}
+                                    label={`>= ${value}`} // Display label with "greater than or equal to"
+                                />
+                            ))}
+                        </RadioGroup></FormControl>
                 </CardContent>
             </Card>
             <Card sx={styles.root} variant="outlined">

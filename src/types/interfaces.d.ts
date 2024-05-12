@@ -43,7 +43,7 @@ export interface MovieImage {
     vote_count?: number;
     width?: number;
 }
-export type FilterOption = "title" | "genre" | "mediaType";
+export type FilterOption = "title" | "genre" | "rating";
 
 export interface Review {
     id: string;

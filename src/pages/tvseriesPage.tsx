@@ -10,6 +10,7 @@ import { useQuery } from "react-query";
 import Spinner from "../components/spinner";
 import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 import React, { useEffect, useState } from "react"
+import Pagination from "../components/pagination";
 
 // const titleFiltering = {
 //     name: "title",
@@ -23,7 +24,15 @@ import React, { useEffect, useState } from "react"
 // };
 
 const TVSeriesPage = () => {
-    const { data, error, isLoading, isError } = useQuery<DiscoverTVSeries, Error>("tvSeries", getTVSeries);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data, error, isLoading, isError } = useQuery<DiscoverTVSeries, Error>(
+        ["tvSeries", currentPage],
+        () => getTVSeries(currentPage),
+        {
+            keepPreviousData: true, // To keep previous data 
+        }
+    );
+    // const { data, error, isLoading, isError } = useQuery<DiscoverTVSeries, Error>("tvSeries", getTVSeries);
     // const { filterValues, setFilterValues, filterFunction } = useFiltering(
     //     [],
     //     [titleFiltering, genreFiltering]
@@ -64,6 +73,11 @@ const TVSeriesPage = () => {
                 titleFilter={filterValues[0].value}
                 genreFilter={filterValues[1].value}
             /> */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={data?.total_pages || 1}
+                onPageChange={setCurrentPage}
+            />
         </>
     );
 };

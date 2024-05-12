@@ -1,4 +1,4 @@
-import React, { useContext } from "react"
+import React, { useContext, useState } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { MoviesContext } from "../contexts/moviesContext";
 import { useQueries } from "react-query";
@@ -6,11 +6,12 @@ import { getMovie } from "../api/tmdb-api";
 import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
-    titleFilter
+    titleFilter, ratingFilter
 } from "../components/movieFilterUI";
 import { MovieT } from "../types/interfaces";
 import RemoveFromFavourites from "../components/cardIcons/removeFromFavourites";
 import WriteReview from "../components/cardIcons/writeReview";
+import Pagination from "../components/pagination";
 
 const titleFiltering = {
     name: "title",
@@ -29,17 +30,19 @@ export const genreFiltering = {
         return genreId > 0 ? genre_ids.includes(genreId) : true;
     },
 };
-// const mediaTypeFiltering = {
-//     name: "mediaType",
-//     value: "0",
-//     condition: mediaTypeFilter,
-// };
+const ratingFiltering = {
+    name: "rating",
+    value: "0",
+    condition: ratingFilter,
+};
+const ITEMS_PER_PAGE = 5;
 
 const FavouriteMoviesPage: React.FC = () => {
+    const [currentPage, setCurrentPage] = useState(1);
     const { favourites: movieIds } = useContext(MoviesContext);
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [],
-        [titleFiltering, genreFiltering]
+        [titleFiltering, genreFiltering, ratingFiltering]
     );
     console.log("favourites in fav", movieIds)
     // Create an array of queries and run them in parallel.
@@ -59,28 +62,37 @@ const FavouriteMoviesPage: React.FC = () => {
     }
 
     const allFavourites = favouriteMovieQueries.map((q) => q.data);
-    const displayMovies = allFavourites
-        ? filterFunction(allFavourites)
-        : [];
+    // const displayMovies = allFavourites
+    //     ? filterFunction(allFavourites)
+    //     : [];
+    // Calculate pagination values
+    const totalItems = allFavourites.length;
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = Math.min(startIndex + ITEMS_PER_PAGE, totalItems); // Prevent exceeding total items
+    const displayMovies = allFavourites.slice(startIndex, endIndex);
 
     const changeFilterValues = (type: string, value: string) => {
-        // let updatedFilterSet: { name: string; value: string }[];
-        // // Determine which filter is being updated and update the filter set accordingly
-        // if (type === "title") {
-        //     updatedFilterSet = [{ name: type, value: value }, filterValues[1]];
-        // } else if (type === "genre") {
-        //     updatedFilterSet = [filterValues[0], { name: type, value: value }];
-        // } else if (type === "mediaType") {
-        //     updatedFilterSet = [filterValues[0], filterValues[1], { name: type, value: value }];
-        // } else {
-        //     // Handle unknown filter types
-        //     console.error("Unknown filter type:", type);
-        //     return;
-        // }
-
         const changedFilter = { name: type, value: value };
-        const updatedFilterSet =
-            type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
+        // // Determine which filter is being updated and update the filter set accordingly
+        let updatedFilterSet;
+        if (type === "title") {
+            updatedFilterSet = [changedFilter, filterValues[1]], filterValues[2];
+        } else if (type === "genre") {
+            updatedFilterSet = [filterValues[0], changedFilter, filterValues[2]];
+        }
+        else if (type === "rating") {
+            updatedFilterSet = [filterValues[0], filterValues[1], changedFilter];
+        }
+        else {
+            // Handle unknown filter types
+            console.error("Unknown filter type:", type);
+            return;
+        }
+
+        // const changedFilter = { name: type, value: value };
+        // const updatedFilterSet =
+        //     type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
         setFilterValues(updatedFilterSet);
     };
 
@@ -102,7 +114,13 @@ const FavouriteMoviesPage: React.FC = () => {
                 onFilterValuesChange={changeFilterValues}
                 titleFilter={filterValues[0].value}
                 genreFilter={filterValues[1].value}
+                ratingFilter={filterValues[2].value}
                 isInFavouritesPage={true}
+            />
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={setCurrentPage}
             />
         </>
     );
