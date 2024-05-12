@@ -40,7 +40,7 @@ const ITEMS_PER_PAGE = 5;
 const FavouriteMoviesPage: React.FC = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const { favourites: movieIds } = useContext(MoviesContext);
-    const { filterValues, setFilterValues, filterFunction } = useFiltering(
+    const { filterValues, setFilterValues } = useFiltering(
         [],
         [titleFiltering, genreFiltering, ratingFiltering]
     );
@@ -62,10 +62,7 @@ const FavouriteMoviesPage: React.FC = () => {
     }
 
     const allFavourites = favouriteMovieQueries.map((q) => q.data);
-    // const displayMovies = allFavourites
-    //     ? filterFunction(allFavourites)
-    //     : [];
-    // Calculate pagination values
+
     const totalItems = allFavourites.length;
     const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -89,10 +86,6 @@ const FavouriteMoviesPage: React.FC = () => {
             console.error("Unknown filter type:", type);
             return;
         }
-
-        // const changedFilter = { name: type, value: value };
-        // const updatedFilterSet =
-        //     type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
         setFilterValues(updatedFilterSet);
     };
 

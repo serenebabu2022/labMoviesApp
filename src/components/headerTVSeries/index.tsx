@@ -4,10 +4,9 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import HomeIcon from "@mui/icons-material/Home";
 import Avatar from "@mui/material/Avatar";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { MovieT, TVSeriesT } from "../../types/interfaces";
+import { TVSeriesT } from "../../types/interfaces";
 
 const styles = {
     root: {

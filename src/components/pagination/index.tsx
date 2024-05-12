@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box"; // Import Box component for styling
-import Button from "@mui/material/Button"; // Import Button component from Material-UI
 import { IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft"; // Material-UI icon for previous
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";

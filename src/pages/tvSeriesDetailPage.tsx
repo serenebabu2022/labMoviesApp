@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react"; // replace existing react import
+import React from "react";
 import { useParams } from "react-router-dom";
-import MovieDetails from "../components/movieDetails";
-import { DiscoverTVSeries, MovieT, TVSeries, TVSeriesT } from "../types/interfaces";
-import { ListedMovie } from "../types/interfaces";
+import { DiscoverTVSeries, TVSeries, TVSeriesT } from "../types/interfaces";
 import PageTemplate from "../components/templateTVSeriesPage";
-import { getActor, getPopularMovies, getSimilarTVSeries, getTVSeriesDetail } from '../api/tmdb-api'
-import { useQuery, useQueries } from "react-query";
+import { getSimilarTVSeries, getTVSeriesDetail } from '../api/tmdb-api'
+import { useQuery } from "react-query";
 import Spinner from '../components/spinner'
 import TVSeriesDetails from "../components/tvSeriesDetails";
 

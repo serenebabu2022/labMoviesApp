@@ -10,7 +10,7 @@ const meta = {
     decorators: [
         (Story) => <MemoryRouter initialEntries={["/"]}>{Story()}</MemoryRouter>,
         (Story) => <MoviesContextProvider>{Story()}</MoviesContextProvider>,
-      ],
+    ],
 } satisfies Meta<typeof MovieDetails>;
 export default meta;
 

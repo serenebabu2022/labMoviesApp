@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import PageTemplate from "../components/templateMovieListPage";
 import { useQuery } from "react-query";
 import { getPopularMovies } from "../api/tmdb-api";
@@ -37,7 +37,6 @@ const PopularMoviesPage: React.FC = () => {
             keepPreviousData: true, // To keep previous data 
         }
     );
-    // const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("Popular", getPopularMovies);
 
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [],

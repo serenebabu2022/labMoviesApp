@@ -72,8 +72,15 @@ const HomePage = () => {
 
     const movies = data ? data.results : [];
     const displayedMovies = filterFunction(movies);
-    console.log("home", movies);
-    console.log("displayedmovies", displayedMovies)
+
+    // function openInNewTab(event: MouseEvent) {
+    //     const target = event.target as HTMLElement;
+    //     const videoId = target.getAttribute("data-video-id");
+    //     if (videoId) {
+    //         window.open(`https://www.youtube.com/watch?v=${videoId}`, "_blank");
+    //     }
+    // }
+
     return (
         <>
             <PageTemplate

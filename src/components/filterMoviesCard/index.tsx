@@ -51,11 +51,6 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
     if (genres[0].name !== "All") {
         genres.unshift({ id: "0", name: "All" });
     }
-    const mediaTypes = [
-        { key: "all", label: "All" },
-        { key: "movie", label: "Movies" },
-        { key: "tv", label: "TV Series" }
-    ];
 
     const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
         e.preventDefault()

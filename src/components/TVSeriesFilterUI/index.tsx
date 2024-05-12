@@ -12,6 +12,10 @@ export const genreFilter = function (movie: ListedMovie, value: string) {
     const genreId = Number(value);
     return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
+export const ratingFilter = function (movie: ListedMovie, value: string) {
+    const minRating = parseFloat(value);
+    return movie.vote_average >= minRating; // Direct comparison with float
+};
 
 const styles = {
     root: {
@@ -29,10 +33,11 @@ interface TVSeriesFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
+    ratingFilter: string;
 }
 
 
-const TVSeriesFilterUI: React.FC<TVSeriesFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
+const TVSeriesFilterUI: React.FC<TVSeriesFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, ratingFilter }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
@@ -54,8 +59,8 @@ const TVSeriesFilterUI: React.FC<TVSeriesFilterUIProps> = ({ onFilterValuesChang
                     onUserInput={onFilterValuesChange}
                     titleFilter={titleFilter}
                     genreFilter={genreFilter}
-                    mediaTypeFilter="tv"
                     isInFavouritesPage={false}
+                    ratingFilter={ratingFilter}
                 />
             </Drawer>
         </>

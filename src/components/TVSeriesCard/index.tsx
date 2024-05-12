@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import Avatar from "@mui/material/Avatar";
 import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
-import { MoviesContext } from "../../contexts/moviesContext";
 import { TVSeries } from "../../types/interfaces";
 import PlayListAddIcon from "@mui/icons-material/PlaylistAdd";
 

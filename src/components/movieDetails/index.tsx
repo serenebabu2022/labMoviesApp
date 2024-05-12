@@ -14,6 +14,8 @@ import Grid from "@mui/material/Grid";
 import { ListedMovie } from "../../types/interfaces";
 import MovieList from "../movieList";
 import AddToFavouritesIcon from '../../components/cardIcons/addToFavourites'
+import { Button } from "@mui/material";
+import { Link } from "@mui/icons-material";
 
 const styles = {
     chipSet: {
@@ -76,6 +78,11 @@ const MovieDetails: React.FC<moviePageProps> = (props) => {
                 />
                 <Chip label={`Released: ${movie.release_date}`} />
             </Paper>
+            <Link to="https://api.themoviedb.org/3/movie/967847/videos?api_key=c90fce0238bd9075c4071a3ebf4448c1&language=en-US&include_adult=false&include_video=true">
+                <Button variant="outlined" size="small" color="primary">
+                    More Info ...
+                </Button>
+            </Link>
             <Grid item container spacing={3} marginTop={2}>
                 {similar && <MovieList action={(movie: ListedMovie) => {
                     return <AddToFavouritesIcon {...movie} />
