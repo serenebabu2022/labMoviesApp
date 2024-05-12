@@ -1,30 +1,52 @@
-# React + TypeScript + Vite
+# Assignment 2 - React App 
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+__Name:__ Serene Babu
 
-Currently, two official plugins are available:
+__Video demonstration:__ https://youtu.be/IeyAEtx-II0
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This repository contains an implementation of the Movie Fans Web Application using the ReactJS library. 
 
-## Expanding the ESLint configuration
+### Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
++ List view of TVSeries
++ List view of Popular Movies
++ Detail View of TVseries
++ Additional filter for rating
++ Favourites displaying both Movies and TV Series
++ Similar Movies
++ Similar TV Series
++ Pagination
 
-- Configure the top-level `parserOptions` property like this:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+### Data Model
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
++ Data entity for TVSeries
++ Server State Caching
+
+
+### API endpoints
+
++ Discover list of tvseries - discover/tv
++ TV Series details - tv/:id
++ TV Series Images - tv/:id/images
++ Similar movies = movie/:id/similar
++ Similar tv series = tv/:id/similar
++ Popular movies = movie/popular
+
+### Routing
+
++ /movies/popular - displays all popular movies
++ /tvseries - displays list of tvseries
++ /tvseries/:id - detail view of a tv series
+
+
+
+### Assignment 1 integration
+
++ front end deployment in AWS S3 Bucket 
+
+
+### Independent learning (If relevant)
+
+Attempted a filter for seperating movies and tv series in favourites page
+Attempted playing of movie video using react-player
