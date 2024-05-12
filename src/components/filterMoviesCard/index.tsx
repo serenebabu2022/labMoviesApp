@@ -31,8 +31,9 @@ interface FilterMoviesCardProps {
     onUserInput: (f: FilterOption, s: string) => void; // Add this line
     titleFilter: string;
     genreFilter: string;
+    isInFavouritesPage: boolean;
+    mediaTypeFilter: string;
 }
-
 
 const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
 
@@ -48,6 +49,11 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
     if (genres[0].name !== "All") {
         genres.unshift({ id: "0", name: "All" });
     }
+    const mediaTypes = [
+        { key: "all", label: "All" },
+        { key: "movie", label: "Movies" },
+        { key: "tv", label: "TV Series" }
+    ];
 
     const handleChange = (e: SelectChangeEvent, type: FilterOption, value: string) => {
         e.preventDefault()
@@ -60,6 +66,9 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
 
     const handleGenreChange = (e: SelectChangeEvent) => {
         handleChange(e, "genre", e.target.value)
+    };
+    const handleMediaTypeChange = (e: SelectChangeEvent) => {
+        handleChange(e, "mediaType", e.target.value)
     };
 
     return (
@@ -96,6 +105,23 @@ const FilterMoviesCard: React.FC<FilterMoviesCardProps> = (props) => {
                             })}
                         </Select>
                     </FormControl>
+                    {props.isInFavouritesPage &&
+                        <FormControl sx={styles.formControl}>
+                            <InputLabel id="media-type-label">Media Type</InputLabel>
+                            <Select
+                                labelId="media-type-label"
+                                id="media-type-select"
+                                value={props.mediaTypeFilter}
+                                onChange={handleMediaTypeChange}
+                            >
+                                {mediaTypes.map((type) => (
+                                    <MenuItem key={type.key} value={type.key}>
+                                        {type.label}
+                                    </MenuItem>
+                                ))}
+                            </Select>
+                        </FormControl>
+                    }
                 </CardContent>
             </Card>
             <Card sx={styles.root} variant="outlined">

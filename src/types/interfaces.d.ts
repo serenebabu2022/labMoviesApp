@@ -43,7 +43,7 @@ export interface MovieImage {
     vote_count?: number;
     width?: number;
 }
-export type FilterOption = "title" | "genre";
+export type FilterOption = "title" | "genre" | "mediaType";
 
 export interface Review {
     id: string;
@@ -74,4 +74,58 @@ export interface Review {
     agree: boolean,
     rating: number,
     movieId: number,
+}
+// export interface Actor {
+//     actorId: string;
+//     actorName: string;
+//     actorKnown_for: BaseMovie[];
+//     actorProfile_path: number;
+//     actorPopularity: float;
+// }
+export interface TVSeries {
+    name: string;
+    overview: string;
+    first_air_date: string;
+    name: string;
+    id: number;
+    genre_ids: number[];
+    poster_path?: string;
+    vote_average: string;
+    episode_run_time: number;
+    revenue: number;
+    vote_count: number;
+    tagline: string;
+    number_of_seasons: number;
+    number_of_episodes: number;
+}
+
+interface DiscoverTVSeries {
+    page: number;
+    total_pages: number;
+    total_results: number;
+    results: TVSeries[];
+}
+export interface TVSeriesListPageTemplateProps {
+    tvSeries: TVSeries[];
+    title: string;
+    action: (m: TVSeries) => ReactNode;
+}
+export interface TVSeriesT extends TVSeries {
+    genres: {
+        id: number;
+        name: string;
+    }[];
+    production_countries: {
+        iso_3166_1: string;
+        name: string;
+    }[];
+}
+export interface TVSeriesImage {
+    file_path: string;
+    aspect_ratio?: number;
+    height?: number;
+    iso_639_1?: string;
+    vote_average?: number;
+    vote_count?: number;
+    width?: number;
 }

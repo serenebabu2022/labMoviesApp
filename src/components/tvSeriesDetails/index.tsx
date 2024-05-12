@@ -5,14 +5,14 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import MonetizationIcon from "@mui/icons-material/MonetizationOn";
 import StarRate from "@mui/icons-material/StarRate";
 import Typography from "@mui/material/Typography";
-import { MovieT } from "../../types/interfaces";
+import { MovieT, TVSeries, TVSeriesT } from "../../types/interfaces";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from '../movieReviews';
 import Grid from "@mui/material/Grid";
 import { ListedMovie } from "../../types/interfaces";
-import MovieList from "../movieList";
+import TVSeriesList from "../TVSeriesList";
 import AddToFavouritesIcon from '../../components/cardIcons/addToFavourites'
 
 const styles = {
@@ -35,13 +35,14 @@ const styles = {
         right: 2,
     },
 };
-interface moviePageProps {
-    movie: MovieT;
-    similar?: ListedMovie[];
+interface tvSeriesPageProps {
+    tvSeries: TVSeriesT;
+    similar?: TVSeries[];
 }
 
-const MovieDetails: React.FC<moviePageProps> = (props) => {
-    const { movie, similar } = props;
+const TVSeriesDetails: React.FC<tvSeriesPageProps> = (props) => {
+    const { tvSeries, similar } = props;
+
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
@@ -51,35 +52,35 @@ const MovieDetails: React.FC<moviePageProps> = (props) => {
             </Typography>
 
             <Typography variant="h6" component="p">
-                {movie.overview}
+                {tvSeries.overview}
             </Typography>
 
             <Paper component="ul" sx={styles.chipSet}>
                 <li>
                     <Chip label="Genres" sx={styles.chipLabel} color="primary" />
                 </li>
-                {movie.genres.map((g) => (
+                {tvSeries.genres.map((g) => (
                     <li key={g.name}>
                         <Chip label={g.name} />
                     </li>
                 ))}
             </Paper>
             <Paper component="ul" sx={styles.chipSet}>
-                <Chip icon={<AccessTimeIcon />} label={`${movie.runtime} min.`} />
-                <Chip
+                <Chip icon={<AccessTimeIcon />} label={`${tvSeries.episode_run_time} min.`} />
+                {/* <Chip
                     icon={<MonetizationIcon />}
-                    label={`${movie.revenue.toLocaleString()}`}
-                />
+                    label={`${tvSeries.revenue.toLocaleString()}`}
+                /> */}
                 <Chip
                     icon={<StarRate />}
-                    label={`${movie.vote_average} (${movie.vote_count}`}
+                    label={`${tvSeries.vote_average} (${tvSeries.vote_count}`}
                 />
-                <Chip label={`Released: ${movie.release_date}`} />
+                <Chip label={`Released: ${tvSeries.first_air_date}`} />
             </Paper>
             <Grid item container spacing={3} marginTop={2}>
-                {similar && <MovieList action={(movie: ListedMovie) => {
+                {similar && <TVSeriesList action={(movie: TVSeries) => {
                     return <AddToFavouritesIcon {...movie} />
-                }} movies={similar} similarMovies={true} />}
+                }} tvSeries={similar} similarMovies={true} />}
             </Grid>
 
             <Fab
@@ -91,10 +92,10 @@ const MovieDetails: React.FC<moviePageProps> = (props) => {
                 <NavigationIcon />
                 Reviews
             </Fab>
-            <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-                <MovieReviews {...movie} />
-            </Drawer>
+            {/* <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+                <MovieReviews {...tvSeries} />
+            </Drawer> */}
         </>
     );
 };
-export default MovieDetails;
+export default TVSeriesDetails;

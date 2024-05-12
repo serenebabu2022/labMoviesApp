@@ -29,6 +29,11 @@ export const genreFiltering = {
         return genreId > 0 ? genre_ids.includes(genreId) : true;
     },
 };
+// const mediaTypeFiltering = {
+//     name: "mediaType",
+//     value: "0",
+//     condition: mediaTypeFilter,
+// };
 
 const FavouriteMoviesPage: React.FC = () => {
     const { favourites: movieIds } = useContext(MoviesContext);
@@ -36,7 +41,7 @@ const FavouriteMoviesPage: React.FC = () => {
         [],
         [titleFiltering, genreFiltering]
     );
-
+    console.log("favourites in fav", movieIds)
     // Create an array of queries and run them in parallel.
     const favouriteMovieQueries = useQueries(
         movieIds.map((movieId) => {
@@ -57,9 +62,22 @@ const FavouriteMoviesPage: React.FC = () => {
     const displayMovies = allFavourites
         ? filterFunction(allFavourites)
         : [];
-    const toDo = () => true;
 
     const changeFilterValues = (type: string, value: string) => {
+        // let updatedFilterSet: { name: string; value: string }[];
+        // // Determine which filter is being updated and update the filter set accordingly
+        // if (type === "title") {
+        //     updatedFilterSet = [{ name: type, value: value }, filterValues[1]];
+        // } else if (type === "genre") {
+        //     updatedFilterSet = [filterValues[0], { name: type, value: value }];
+        // } else if (type === "mediaType") {
+        //     updatedFilterSet = [filterValues[0], filterValues[1], { name: type, value: value }];
+        // } else {
+        //     // Handle unknown filter types
+        //     console.error("Unknown filter type:", type);
+        //     return;
+        // }
+
         const changedFilter = { name: type, value: value };
         const updatedFilterSet =
             type === "title" ? [changedFilter, filterValues[1]] : [filterValues[0], changedFilter];
@@ -69,7 +87,7 @@ const FavouriteMoviesPage: React.FC = () => {
     return (
         <>
             <PageTemplate
-                title="Favourite Movies"
+                title="Favourite Movies And TVSeries"
                 movies={displayMovies}
                 action={(movie) => {
                     return (
@@ -84,6 +102,7 @@ const FavouriteMoviesPage: React.FC = () => {
                 onFilterValuesChange={changeFilterValues}
                 titleFilter={filterValues[0].value}
                 genreFilter={filterValues[1].value}
+                isInFavouritesPage={true}
             />
         </>
     );

@@ -2,9 +2,9 @@ import React, { MouseEvent, useContext } from "react";
 import { MoviesContext } from "../../contexts/moviesContext";
 import IconButton from "@mui/material/IconButton";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { ListedMovie } from "../../types/interfaces"
+import { ListedMovie, TVSeries } from "../../types/interfaces"
 
-const AddToFavouritesIcon: React.FC<ListedMovie> = (movie) => {
+const AddToFavouritesIcon: React.FC<ListedMovie | TVSeries> = (movie) => {
     const context = useContext(MoviesContext);
 
     const onUserSelect = (e: MouseEvent<HTMLButtonElement>) => {

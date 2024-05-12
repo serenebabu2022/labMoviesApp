@@ -3,10 +3,11 @@ import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-import { getMovieImages } from "../../api/tmdb-api";
-import { MovieImage, MovieT } from "../../types/interfaces";
+import { getMovieImages, getTVSeriesImages } from "../../api/tmdb-api";
+import { MovieImage, MovieT, TVSeries, TVSeriesImage, TVSeriesT } from "../../types/interfaces";
 import { useQuery } from "react-query";
 import Spinner from '../spinner';
+import TVSeriesHeader from "../headerTVSeries";
 
 const styles = {
     gridListRoot: {
@@ -20,16 +21,16 @@ const styles = {
     },
 };
 
-interface TemplateMoviePageProps {
-    movie: MovieT;
+interface TemplateTVSeriesPageProps {
+    tvSeries: TVSeriesT;
     children: React.ReactElement;
 }
 
-const TemplateMoviePage: React.FC<TemplateMoviePageProps> = (props) => {
-    const { movie, children } = props;
-    const { data, error, isLoading, isError } = useQuery<MovieImage[], Error>(
-        ["images", movie.id],
-        () => getMovieImages(movie.id)
+const TemplateTVSeriesPage: React.FC<TemplateTVSeriesPageProps> = (props) => {
+    const { tvSeries, children } = props;
+    const { data, error, isLoading, isError } = useQuery<TVSeriesImage[], Error>(
+        ["images", tvSeries.id],
+        () => getTVSeriesImages(tvSeries.id)
     );
 
     if (isLoading) {
@@ -41,17 +42,17 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = (props) => {
 
         ).message}</h1>;
     }
-    const images = data as MovieImage[];
+    const images = data as TVSeriesImage[];
 
     return (
         <>
-            <MovieHeader {...movie} />
+            <TVSeriesHeader {...tvSeries} />
 
             <Grid container spacing={5} style={{ padding: "15px" }}>
                 <Grid item xs={3}>
                     <div>
                         <ImageList cols={1}>
-                            {images.map((image: MovieImage) => (
+                            {images.map((image: TVSeriesImage) => (
                                 <ImageListItem
                                     key={image.file_path}
                                     sx={styles.gridListTile}
@@ -75,4 +76,4 @@ const TemplateMoviePage: React.FC<TemplateMoviePageProps> = (props) => {
     );
 };
 
-export default TemplateMoviePage;
+export default TemplateTVSeriesPage;

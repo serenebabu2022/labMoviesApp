@@ -14,7 +14,7 @@ import Avatar from "@mui/material/Avatar";
 import { Link } from "react-router-dom";
 import img from '../../images/film-poster-placeholder.png';
 import { MoviesContext } from "../../contexts/moviesContext";
-import { ListedMovie } from "../../types/interfaces";
+import { TVSeries } from "../../types/interfaces";
 import PlayListAddIcon from "@mui/icons-material/PlaylistAdd";
 
 const styles = {
@@ -25,45 +25,45 @@ const styles = {
     },
 };
 
-interface MovieListProps {
-    movie: ListedMovie,
-    action: (m: ListedMovie) => React.ReactNode;
+interface TVSeriesProps {
+    tvSeries: TVSeries,
+    action: (m: TVSeries) => React.ReactNode;
 }
 
-const MovieCard: React.FC<MovieListProps> = (props) => {
-    const movie = { ...props.movie, favourite: false, mustWatch: false };
-    const { favourites } = useContext(MoviesContext);
-    const { mustWatchList } = useContext(MoviesContext);
+const TVSeriesCard: React.FC<TVSeriesProps> = (props) => {
+    const tvSeries = { ...props.tvSeries, favourite: false, mustWatch: false };
+    // const { favourites } = useContext(MoviesContext);
+    // const { mustWatchList } = useContext(MoviesContext);
 
-    if (favourites.find((id) => id === movie.id))
-        movie.favourite = true;
-    if (mustWatchList.find((id) => id === movie.id))
-        movie.mustWatch = true;
+    // if (favourites.find((id) => id === tvSeries.id))
+    //     tvSeries.favourite = true;
+    // if (mustWatchList.find((id) => id === tvSeries.id))
+    //     tvSeries.mustWatch = true;
 
     return (
         <Card sx={styles.card}>
             <CardHeader
                 avatar=
-                {movie.favourite ? (
+                {tvSeries.favourite ? (
                     <Avatar sx={styles.avatar}>
                         <FavoriteIcon />
                     </Avatar>
-                ) : movie.mustWatch ? (
+                ) : tvSeries.mustWatch ? (
                     <Avatar sx={styles.avatar}>
                         <PlayListAddIcon />
                     </Avatar>
                 ) : null}
                 title={
                     <Typography variant="h6" component="p">
-                        {movie.title}{" "}
+                        {tvSeries.name}{" "}
                     </Typography>
                 }
             />
             <CardMedia
                 sx={styles.media}
                 image={
-                    movie.poster_path
-                        ? `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+                    tvSeries.poster_path
+                        ? `https://image.tmdb.org/t/p/w500/${tvSeries.poster_path}`
                         : img
                 }
             />
@@ -72,20 +72,20 @@ const MovieCard: React.FC<MovieListProps> = (props) => {
                     <Grid item xs={6}>
                         <Typography variant="subtitle1" component="p">
                             <CalendarIcon fontSize="small" />
-                            {movie.release_date}
+                            {tvSeries.first_air_date}
                         </Typography>
                     </Grid>
                     <Grid item xs={6}>
                         <Typography variant="subtitle1" component="p">
                             <StarRateIcon fontSize="small" />
-                            {"  "} {movie.vote_average}{" "}
+                            {"  "} {tvSeries.vote_average}{" "}
                         </Typography>
                     </Grid>
                 </Grid>
             </CardContent>
             <CardActions disableSpacing>
-                {props.action(movie)}
-                <Link to={`/movies/${movie.id}`}>
+                {props.action(tvSeries)}
+                <Link to={`/tvseries/${tvSeries.id}`}>
                     <Button variant="outlined" size="small" color="primary">
                         More Info ...
                     </Button>
@@ -95,4 +95,4 @@ const MovieCard: React.FC<MovieListProps> = (props) => {
     );
 }
 
-export default MovieCard;
+export default TVSeriesCard;

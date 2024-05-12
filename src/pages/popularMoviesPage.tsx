@@ -1,15 +1,15 @@
-import React from "react";
-import PageTemplate from '../components/templateMovieListPage';
+import React, { useEffect, useState } from "react"
+import PageTemplate from "../components/templateMovieListPage";
+import { useQuery } from "react-query";
+import { getPopularMovies } from "../api/tmdb-api";
 import { DiscoverMovies, ListedMovie } from "../types/interfaces";
-import { getUpcomingMovies } from "../api/tmdb-api";
+import Spinner from "../components/spinner";
 import useFiltering from "../hooks/useFiltering";
 import MovieFilterUI, {
     titleFilter,
     genreFilter,
 } from "../components/movieFilterUI";
-import { useQuery } from "react-query";
-import Spinner from "../components/spinner";
-import AddToPlayListIcon from '../components/cardIcons/addToPlaylist';
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 
 const titleFiltering = {
     name: "title",
@@ -22,9 +22,9 @@ const genreFiltering = {
     condition: genreFilter,
 };
 
-const UpcomingMoviesPage: React.FC = () => {
+const PopularMoviesPage: React.FC = () => {
+    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("Popular", getPopularMovies);
 
-    const { data, error, isLoading, isError } = useQuery<DiscoverMovies, Error>("UpComing", getUpcomingMovies);
     const { filterValues, setFilterValues, filterFunction } = useFiltering(
         [],
         [titleFiltering, genreFiltering]
@@ -34,8 +34,8 @@ const UpcomingMoviesPage: React.FC = () => {
         return <Spinner />;
     }
 
-    if (isError || !data) {
-        return <h1>{error ? error.message : "Error fetching data"}</h1>;
+    if (isError) {
+        return <h1>{error.message}</h1>;
     }
 
     const changeFilterValues = (type: string, value: string) => {
@@ -49,14 +49,14 @@ const UpcomingMoviesPage: React.FC = () => {
 
     const movies = data ? data.results : [];
     const displayedMovies = filterFunction(movies);
-    console.log("upcomingMoviesPage");
+
     return (
         <>
             <PageTemplate
-                title='Upcoming Movies'
+                title='Popular Movies'
                 movies={displayedMovies}
                 action={(movie: ListedMovie) => {
-                    return <AddToPlayListIcon {...movie} />
+                    return <AddToFavouritesIcon {...movie} />
                 }}
             />
             <MovieFilterUI
@@ -68,4 +68,5 @@ const UpcomingMoviesPage: React.FC = () => {
         </>
     );
 };
-export default UpcomingMoviesPage;
+
+export default PopularMoviesPage;

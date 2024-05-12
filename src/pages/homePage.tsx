@@ -48,7 +48,8 @@ const HomePage = () => {
 
     const movies = data ? data.results : [];
     const displayedMovies = filterFunction(movies);
-
+    console.log("home", movies);
+    console.log("displayedmovies", displayedMovies)
     return (
         <>
             <PageTemplate
@@ -61,6 +62,7 @@ const HomePage = () => {
                 onFilterValuesChange={changeFilterValues}
                 titleFilter={filterValues[0].value}
                 genreFilter={filterValues[1].value}
+                isInFavouritesPage={false}
             />
         </>
     );

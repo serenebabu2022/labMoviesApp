@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import FilterCard from "../filterMoviesCard";
 import Fab from "@mui/material/Fab";
 import Drawer from "@mui/material/Drawer";
-import { ListedMovie, TVSeries } from "../../types/interfaces";
+import { ListedMovie } from "../../types/interfaces";
 
 export const titleFilter = function (movie: ListedMovie, value: string) {
-    console.log("titlefilter", movie.title.toLowerCase().search(value.toLowerCase()))
     return movie.title.toLowerCase().search(value.toLowerCase()) !== -1;
 };
 
@@ -13,20 +12,6 @@ export const genreFilter = function (movie: ListedMovie, value: string) {
     const genreId = Number(value);
     return genreId > 0 ? movie.genre_ids.includes(genreId) : true;
 };
-// export const mediaTypeFilter = function (media: ListedMovie | TVSeries, value: string) {
-//     const mediaType = value.toLowerCase();
-//     console.log("mediatype", mediaType);
-//     console.log("media", media);
-//     if (mediaType === "all") {
-//         return true; // Include all media types
-//     } else if (mediaType === "movie") {
-//         return true; // Include only movies
-//     } else if (mediaType === "tv") {
-//         return true; // Include only TV series
-//     } else {
-//         return false; // Invalid media type, exclude it
-//     }
-// };
 
 const styles = {
     root: {
@@ -40,15 +25,14 @@ const styles = {
     },
 };
 
-interface MovieFilterUIProps {
+interface TVSeriesFilterUIProps {
     onFilterValuesChange: (f: string, s: string) => void;
     titleFilter: string;
     genreFilter: string;
-    isInFavouritesPage: boolean;
 }
 
 
-const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter, isInFavouritesPage }) => {
+const TVSeriesFilterUI: React.FC<TVSeriesFilterUIProps> = ({ onFilterValuesChange, titleFilter, genreFilter }) => {
     const [drawerOpen, setDrawerOpen] = useState(false);
 
     return (
@@ -70,12 +54,12 @@ const MovieFilterUI: React.FC<MovieFilterUIProps> = ({ onFilterValuesChange, tit
                     onUserInput={onFilterValuesChange}
                     titleFilter={titleFilter}
                     genreFilter={genreFilter}
-                    isInFavouritesPage={isInFavouritesPage}
-                    mediaTypeFilter="all"
+                    mediaTypeFilter="tv"
+                    isInFavouritesPage={false}
                 />
             </Drawer>
         </>
     );
 };
 
-export default MovieFilterUI;
+export default TVSeriesFilterUI;

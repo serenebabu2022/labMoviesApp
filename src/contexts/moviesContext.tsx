@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { ListedMovie, MovieT, Review } from "../types/interfaces";
+import { ListedMovie, MovieT, Review, TVSeries } from "../types/interfaces";
 
 interface MovieContextInterface {
     favourites: number[];
     mustWatchList: number[];
-    addToFavourites: ((movie: ListedMovie) => void);
+    addToFavourites: ((movie: ListedMovie | TVSeries) => void);
     removeFromFavourites: ((movie: ListedMovie) => void);
     addReview: ((movie: MovieT, review: Review) => void);
     addToWatchList: ((movie: ListedMovie) => void);
@@ -26,12 +26,13 @@ const MoviesContextProvider: React.FC<React.PropsWithChildren> = (props) => {
     const [favourites, setFavourites] = useState<number[]>([]);
     const [mustWatchList, setMustWatchList] = useState<number[]>([]);
 
-    const addToFavourites = (movie: ListedMovie) => {
+    const addToFavourites = (movie: ListedMovie | TVSeries) => {
         const updatedFavourites = [...favourites];
         if (!favourites.includes(movie.id)) {
             updatedFavourites.push(movie.id);
         }
         setFavourites(updatedFavourites);
+        console.log("favourites are", updatedFavourites)
     };
     const addToWatchList = (movie: ListedMovie) => {
         const updatedMoviePlaylist = [...mustWatchList];
